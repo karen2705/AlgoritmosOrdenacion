@@ -1,5 +1,8 @@
 package datos;
 
+import java.util.Arrays;
+import programas.QuickSort;
+
 /**
  *
  * @author Noemí Lara Acono
@@ -90,8 +93,138 @@ public class DatosDesordenados {
         return new DatosOrdenados(arreglo);
     }
     
-       
+        public DatosOrdenados Quicksort(){
+        int [] numeros  = this.getCopiaValores();
+      
+        
+        //Llamada Metodo de Ordenamiento QuickSort
+        Quicksort(numeros, 0, numeros.length -1);
+        
+        //Metodo para imprimir Vector Ordenado
+         ImprimirVector(numeros);
+         return new DatosOrdenados(numeros );
+    }
+
+    //Metodo de Ordenamiento QuickSort
+    public void Quicksort(int numeros[], int izq, int der)
+    {
+            /*Este metodo recibe un arreglo de numero, y dos enteros que referencian el primer valor
+            Y el ultimo*/
+        
+            //Se toma como pivote el primer valor
+            int pivote = numeros[izq];
+            
+            //Se definen los dos lados y un auxiliar
+            int i = izq; 
+            int j = der; 
+            int aux;
+           
+            while(i<j)
+            {
+               while (numeros[i] <= pivote && i < j) 
+                  i++;
+
+               while (numeros[j] > pivote) 
+                  j--;   
+
+               if (i<j) 
+               {                                     
+                   aux = numeros[i];                  
+                   numeros[i]= numeros[j];
+                   numeros[j]=aux;
+               }
+            }
+
+             numeros[izq] = numeros[j]; 
+             numeros[j] = pivote;
+
+             if (izq < j-1)
+                Quicksort(numeros,izq,j-1);
+
+             if (j+1 < der)
+                Quicksort(numeros,j+1,der);
+      }
     
+    public static void ImprimirVector(int arreglo[])
+    {
+        for(int i = 0; i < arreglo.length; i++)
+        {
+            System.out.println(arreglo[i]);
+        }
+    }
+            
+     public DatosOrdenados Radix(){
+         int [] arr  = this.getCopiaValores();	
+            //int arr[] = {53,3,542,748,14,214};
+		Radix (arr);
+		System.out.println(Arrays.toString(arr));
+                 return new DatosOrdenados(arr);
+	}
+	public static void Radix (int[] arr) {
+		int[][] bucket = new int[10][arr.length];
+		int[] bucketOfElement = new int[10];
+		int max=0;
+		// Encuentra el elemento más grande en la matriz
+		for(int i = 0 ; i < arr.length;i++) {
+			if(arr[i]>max){
+				max = arr[i];
+			}
+		}
+		// Calcula el número de bits del elemento más grande
+		int maxLength = (max+"").length();
+		for(int m = 0,n=1;m<maxLength;m++,n*=10) {
+			// Coloca los números en arr en los cubos correspondientes según sus unidades, decenas, centenas, etc.
+			for(int i = 0 ; i < arr.length;i++) {
+				int digit = arr[i]/n%10;
+				// Asignar el valor de arr [i] a la matriz bidimensional en el depósito
+				bucket[digit][bucketOfElement[digit]] = arr[i];
+				bucketOfElement[digit]++;
+			}
+			int index = 0;
+			// Leer los elementos en el depósito y reasignarlos a arr
+			for(int j = 0;j<10;j++) {
+				for(int k = 0 ; k<bucketOfElement[j];k++) {
+					arr[index] = bucket[j][k];
+					index++;
+				}
+				bucketOfElement[j]=0;// Borrar el número de elementos en cada uno
+			}
+			}
+		}
+
+     public DatosOrdenados Shellsort(){
+         int [] a  = this.getCopiaValores();	
+        shell(a);
+        for (int i=0; i<a.length; i++){
+            System.out.print(a[i]+ ",");
+        }
+         return new DatosOrdenados(a);
+    }
+    public static void shell(int[]arreglo){
+        int salto=0, temp=0,i=0;
+        boolean cambio;
+        for(salto=arreglo.length/2;salto!=0;salto/=2){
+            cambio=true;
+            while(cambio){
+                cambio=false;
+                for(i=salto;i<arreglo.length;i++){
+                    if(arreglo[i-salto]>arreglo[i]){
+                        temp=arreglo[i];
+                        arreglo[i]=arreglo[i-salto];
+                        arreglo[i-salto]=temp;
+                        cambio=true;
+                    }
+                        
+                    }
+                }
+            }
+        }
+     
+     
+     
+
+         
+
     public DatosOrdenados insertSort(){
          // obtener una copia de los datos desordenados
         int [] a = this.getCopiaValores();
